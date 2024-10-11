@@ -1,0 +1,13 @@
+{
+  "name": "file_manager",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "katyastan",
+  "license": "ISC",
+  "description": "A task to implement File Manager using Node.js APIs."
+}
