@@ -4,6 +4,7 @@ import { cdCommand, upCommand, lsCommand } from "./modules/navigation.mjs";
 import { homedir } from "os";
 import { addFile, copyFile, deleteFile, moveFile, readFile, renameFile } from "./modules/basicOps.mjs";
 import { getOSInfo } from "./modules/osInfo.mjs";
+import { calculateHash } from "./modules/hashCalc.mjs";
 
 const rl = createInterface({
   input: process.stdin,
@@ -62,12 +63,15 @@ rl.on("line", async (input) => {
       case 'os':
         await getOSInfo(restArgs[0]);
         break;
+      case 'hash':
+        await calculateHash(currentDirectory, restArgs[0]);
+        break;
 
       default:
         console.log("Invalid input");
     }
   } catch (err) {
-    console.error("Operation failed");
+    console.error("Operation failed", err);
   } finally {
     printCurrentDirectory(currentDirectory);
   }
