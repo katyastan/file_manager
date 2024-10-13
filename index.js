@@ -3,6 +3,7 @@ import { printCurrentDirectory } from "./modules/utils.mjs";
 import { cdCommand, upCommand, lsCommand } from "./modules/navigation.mjs";
 import { homedir } from "os";
 import { addFile, copyFile, deleteFile, moveFile, readFile, renameFile } from "./modules/basicOps.mjs";
+import { getOSInfo } from "./modules/osInfo.mjs";
 
 const rl = createInterface({
   input: process.stdin,
@@ -57,6 +58,9 @@ rl.on("line", async (input) => {
         break;
       case "rm":
         await deleteFile(currentDirectory, restArgs[0]);
+        break;
+      case 'os':
+        await getOSInfo(restArgs[0]);
         break;
 
       default:
