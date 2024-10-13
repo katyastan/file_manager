@@ -1,18 +1,19 @@
-import { createInterface } from 'readline';
-import { printCurrentDirectory } from './modules/utils.mjs';
-import { cdCommand, upCommand, lsCommand } from './modules/navigation.mjs';
-import { homedir } from 'os';
+import { createInterface } from "readline";
+import { printCurrentDirectory } from "./modules/utils.mjs";
+import { cdCommand, upCommand, lsCommand } from "./modules/navigation.mjs";
+import { homedir } from "os";
+import { addFile, copyFile, deleteFile, moveFile, readFile, renameFile } from "./modules/basicOps.mjs";
 
 const rl = createInterface({
-    input: process.stdin,
-    output: process.stdout,
+  input: process.stdin,
+  output: process.stdout,
 });
 
 const args = process.argv.slice(2);
-let username = 'Guest';
-const usernameArg = args.find(arg => arg.startsWith('--username='));
+let username = "Guest";
+const usernameArg = args.find((arg) => arg.startsWith("--username="));
 if (usernameArg) {
-  username = usernameArg.split('=')[1];
+  username = usernameArg.split("=")[1];
 } else {
   console.error(`No username provided. Using default username: ${username}`);
 }
@@ -39,6 +40,24 @@ rl.on("line", async (input) => {
       case "ls":
         await lsCommand(currentDirectory);
         break;
+      case "cat":
+        await readFile(currentDirectory, restArgs[0]);
+        break;
+      case "add":
+        await addFile(currentDirectory, restArgs[0]);
+        break;
+      case "rn":
+        await renameFile(currentDirectory, restArgs[0], restArgs[1]);
+        break;
+      case "cp":
+        await copyFile(currentDirectory, restArgs[0], restArgs[1]);
+        break;
+      case "mv":
+        await moveFile(currentDirectory, restArgs[0], restArgs[1]);
+        break;
+      case "rm":
+        await deleteFile(currentDirectory, restArgs[0]);
+        break;
 
       default:
         console.log("Invalid input");
@@ -50,7 +69,7 @@ rl.on("line", async (input) => {
   }
 });
 
-rl.on('SIGINT', () => {
-    console.log(`\nThank you for using File Manager, ${username}, goodbye!`);
-    process.exit(1);
+rl.on("SIGINT", () => {
+  console.log(`\nThank you for using File Manager, ${username}, goodbye!`);
+  process.exit(1);
 });
