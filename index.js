@@ -1,6 +1,7 @@
 import { createInterface } from "readline";
 import { printCurrentDirectory } from "./modules/utils.mjs";
-import { cdCommand, upCommand, lsCommand } from "./modules/navigation.mjs";
+import { cdCommand, upCommand } from "./modules/navigation.mjs";
+import { lsCommand } from "./modules/listCommand.mjs";
 import { homedir } from "os";
 import {
   addFile,
@@ -75,17 +76,17 @@ rl.on("line", async (input) => {
         await calculateHash(currentDirectory, restArgs[0]);
         break;
       case "compress":
-        compressFile(restArgs[0], restArgs[1]);
+        await compressFile(restArgs[0], restArgs[1]);
         break;
       case "decompress":
-        decompressFile(restArgs[0], restArgs[1]);
+        await decompressFile(restArgs[0], restArgs[1]);
         break;
 
       default:
-        console.log("Invalid input");
+        console.error("Invalid input");
     }
   } catch (err) {
-    console.error("Operation failed", err);
+    console.error("Operation failed");
   } finally {
     printCurrentDirectory(currentDirectory);
   }
