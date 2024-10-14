@@ -42,48 +42,99 @@ rl.on("line", async (input) => {
       case ".exit":
         console.log(`Thank you for using File Manager, ${username}, goodbye!`);
         process.exit(0);
+
       case "up":
         currentDirectory = await upCommand(currentDirectory);
         break;
+
       case "cd":
-        currentDirectory = await cdCommand(currentDirectory, restArgs[0]);
+        if (restArgs[0]) {
+          currentDirectory = await cdCommand(currentDirectory, restArgs[0]);
+        } else {
+          console.error(
+            "Invalid input: Missing directory argument for 'cd' command."
+          );
+        }
         break;
+
       case "ls":
         await lsCommand(currentDirectory);
         break;
+
       case "cat":
-        await readFile(currentDirectory, restArgs[0]);
+        if (restArgs[0]) {
+          await readFile(currentDirectory, restArgs[0]);
+        } else {
+          console.error("Invalid input: Missing file path for 'cat' command.");
+        }
         break;
+
       case "add":
-        await addFile(currentDirectory, restArgs[0]);
+        if (restArgs[0]) {
+          await addFile(currentDirectory, restArgs[0]);
+        } else {
+          console.error("Invalid input: Missing file name for 'add' command.");
+        }
         break;
+
       case "rn":
-        await renameFile(currentDirectory, restArgs[0], restArgs[1]);
+        if (restArgs[0] && restArgs[1]) {
+          await renameFile(currentDirectory, restArgs[0], restArgs[1]);
+        } else {
+          console.error("Invalid input: Missing file names for 'rn' command.");
+        }
         break;
+
       case "cp":
-        await copyFile(currentDirectory, restArgs[0], restArgs[1]);
+        if (restArgs[0] && restArgs[1]) {
+          await copyFile(currentDirectory, restArgs[0], restArgs[1]);
+        } else {
+          console.error(
+            "Invalid input: Missing source or destination for 'cp' command."
+          );
+        }
         break;
+
       case "mv":
-        await moveFile(currentDirectory, restArgs[0], restArgs[1]);
+        if (restArgs[0] && restArgs[1]) {
+          await moveFile(currentDirectory, restArgs[0], restArgs[1]);
+        } else {
+          console.error(
+            "Invalid input: Missing source or destination for 'mv' command."
+          );
+        }
         break;
+
       case "rm":
-        await deleteFile(currentDirectory, restArgs[0]);
+        if (restArgs[0]) {
+          await deleteFile(currentDirectory, restArgs[0]);
+        } else {
+          console.error("Invalid input: Missing file path for 'rm' command.");
+        }
         break;
+
       case "os":
         await getOSInfo(restArgs[0]);
         break;
+
       case "hash":
-        await calculateHash(currentDirectory, restArgs[0]);
+        if (restArgs[0]) {
+          await calculateHash(currentDirectory, restArgs[0]);
+        } else {
+          console.error("Invalid input: Missing file path for 'hash' command.");
+        }
         break;
+
       case "compress":
         if (restArgs[0] && restArgs[1]) {
-          await compressFile(currentDirectory,restArgs[0], restArgs[1]);
+          await compressFile(currentDirectory, restArgs[0], restArgs[1]);
         } else {
           console.error(
             "Invalid input: Missing source or destination for 'compress' command."
           );
         }
         break;
+
       case "decompress":
         if (restArgs[0] && restArgs[1]) {
           await decompressFile(currentDirectory, restArgs[0], restArgs[1]);
@@ -107,4 +158,8 @@ rl.on("line", async (input) => {
 rl.on("SIGINT", () => {
   console.log(`\nThank you for using File Manager, ${username}, goodbye!`);
   process.exit(1);
+});
+
+process.on("uncaughtException", () => {
+  console.error("Operation failed");
 });
