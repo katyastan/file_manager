@@ -2,9 +2,17 @@ import { createInterface } from "readline";
 import { printCurrentDirectory } from "./modules/utils.mjs";
 import { cdCommand, upCommand, lsCommand } from "./modules/navigation.mjs";
 import { homedir } from "os";
-import { addFile, copyFile, deleteFile, moveFile, readFile, renameFile } from "./modules/basicOps.mjs";
+import {
+  addFile,
+  copyFile,
+  deleteFile,
+  moveFile,
+  readFile,
+  renameFile,
+} from "./modules/basicOps.mjs";
 import { getOSInfo } from "./modules/osInfo.mjs";
 import { calculateHash } from "./modules/hashCalc.mjs";
+import { compressFile, decompressFile } from "./modules/compress.mjs";
 
 const rl = createInterface({
   input: process.stdin,
@@ -60,11 +68,17 @@ rl.on("line", async (input) => {
       case "rm":
         await deleteFile(currentDirectory, restArgs[0]);
         break;
-      case 'os':
+      case "os":
         await getOSInfo(restArgs[0]);
         break;
-      case 'hash':
+      case "hash":
         await calculateHash(currentDirectory, restArgs[0]);
+        break;
+      case "compress":
+        compressFile(restArgs[0], restArgs[1]);
+        break;
+      case "decompress":
+        decompressFile(restArgs[0], restArgs[1]);
         break;
 
       default:
