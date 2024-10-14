@@ -77,7 +77,7 @@ rl.on("line", async (input) => {
         break;
       case "compress":
         if (restArgs[0] && restArgs[1]) {
-          await compressFile(restArgs[0], restArgs[1]);
+          await compressFile(currentDirectory,restArgs[0], restArgs[1]);
         } else {
           console.error(
             "Invalid input: Missing source or destination for 'compress' command."
@@ -86,7 +86,7 @@ rl.on("line", async (input) => {
         break;
       case "decompress":
         if (restArgs[0] && restArgs[1]) {
-          await decompressFile(restArgs[0], restArgs[1]);
+          await decompressFile(currentDirectory, restArgs[0], restArgs[1]);
         } else {
           console.error(
             "Invalid input: Missing source or destination for 'decompress' command."
