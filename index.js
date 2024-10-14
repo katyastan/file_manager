@@ -1,19 +1,19 @@
 import { createInterface } from "readline";
 import { printCurrentDirectory } from "./modules/utils.mjs";
-import { cdCommand, upCommand } from "./modules/navigation.mjs";
-import { lsCommand } from "./modules/listCommand.mjs";
+import { cdCommand } from "./modules/nwd/cd.mjs";
+import { upCommand } from "./modules/nwd/up.mjs";
+import { lsCommand } from "./modules/nwd/ls.mjs";
 import { homedir } from "os";
-import {
-  addFile,
-  copyFile,
-  deleteFile,
-  moveFile,
-  readFile,
-  renameFile,
-} from "./modules/basicOps.mjs";
-import { getOSInfo } from "./modules/osInfo.mjs";
-import { calculateHash } from "./modules/hashCalc.mjs";
-import { compressFile, decompressFile } from "./modules/compress.mjs";
+import { addFile } from "./modules/basic_operations/add.mjs";
+import { copyFile } from "./modules/basic_operations/cp.mjs";
+import { deleteFile } from "./modules/basic_operations/rm.mjs";
+import { moveFile } from "./modules/basic_operations/mv.mjs";
+import { readFile } from "./modules/basic_operations/cat.mjs";
+import { renameFile } from "./modules/basic_operations/rn.mjs";
+import { getOSInfo } from "./modules/os_info/osInfo.mjs";
+import { calculateHash } from "./modules/hash/hashCalc.mjs";
+import { compressFile } from "./modules/compress_decompess/compress.mjs";
+import { decompressFile } from "./modules/compress_decompess/decompress.mjs";
 
 const rl = createInterface({
   input: process.stdin,
