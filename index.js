@@ -76,10 +76,22 @@ rl.on("line", async (input) => {
         await calculateHash(currentDirectory, restArgs[0]);
         break;
       case "compress":
-        await compressFile(restArgs[0], restArgs[1]);
+        if (restArgs[0] && restArgs[1]) {
+          await compressFile(restArgs[0], restArgs[1]);
+        } else {
+          console.error(
+            "Invalid input: Missing source or destination for 'compress' command."
+          );
+        }
         break;
       case "decompress":
-        await decompressFile(restArgs[0], restArgs[1]);
+        if (restArgs[0] && restArgs[1]) {
+          await decompressFile(restArgs[0], restArgs[1]);
+        } else {
+          console.error(
+            "Invalid input: Missing source or destination for 'decompress' command."
+          );
+        }
         break;
 
       default:

@@ -8,9 +8,13 @@ export async function copyFile(currentDirectory, src, dest) {
   const readStream = createReadStream(srcPath);
   const writeStream = createWriteStream(destPath);
 
-  readStream.pipe(writeStream);
-
-  readStream.on("error", () => {
-    throw new Error("Operation failed");
+  readStream.on('error', (err) => {
+    console.error("Operation failed: Source file not found.");
   });
+
+  writeStream.on('error', (err) => {
+    console.error("Operation failed: Destination path error.");
+  });
+
+  readStream.pipe(writeStream);
 }

@@ -3,6 +3,10 @@ import { join } from "path";
 
 export async function addFile(currentDirectory, fileName) {
   const fullPath = join(currentDirectory, fileName);
-  const fileHandle = await open(fullPath, "w");
-  await fileHandle.close();
+  try {
+    const fileHandle = await open(fullPath, "w");
+    await fileHandle.close();
+  } catch (err) {
+    console.error("Operation failed");
+  }
 }
